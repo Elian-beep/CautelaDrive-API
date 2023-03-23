@@ -8,4 +8,5 @@ import uea.cautela_drive.repositories.filters.DevolutivaFilter;
 
 public interface DevolutivaRepositoryQuery {
 	public Page<ResumoDevolutivaDto> filtrar(DevolutivaFilter devolutivaFilter, Pageable pageable);
+	public Page<ResumoDevolutivaDto> filtrarAutorizado(DevolutivaFilter devolutivaFilter, Pageable pageable);
 }

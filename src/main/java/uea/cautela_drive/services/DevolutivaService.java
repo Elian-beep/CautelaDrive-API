@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import uea.cautela_drive.dto.ResumoDevolutivaDto;
 import uea.cautela_drive.models.Devolutiva;
+import uea.cautela_drive.models.enums.Situacao;
 import uea.cautela_drive.repositories.DevolutivaRepository;
 import uea.cautela_drive.repositories.MotoristaRepository;
 import uea.cautela_drive.repositories.RequisicaoRepository;
@@ -27,6 +28,9 @@ public class DevolutivaService {
 	private VeiculoRepository veiculoRepository;
 	
 	public Page<ResumoDevolutivaDto> resumir(DevolutivaFilter devolutivaFilter, Pageable pageable){
+		if(devolutivaFilter.getSituacao().equals(Situacao.AUTORIZADO)) {			
+			return devolutivaRepository.filtrarAutorizado(devolutivaFilter, pageable);
+		}
 		return devolutivaRepository.filtrar(devolutivaFilter, pageable);
 	}
 	

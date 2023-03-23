@@ -32,6 +32,30 @@ public class DevolutivaRepositoryQueryImpl implements DevolutivaRepositoryQuery 
 		criteria.select(builder.construct(ResumoDevolutivaDto.class,
 				root.get("id"),
 				root.get("situacao"),
+				root.get("dataDevolutiva")
+			));
+		Predicate[] predicates = criarRestricoes(devolutivaFilter, builder, root);
+		if (predicates.length > 0) {
+			criteria.where(predicates);
+		}
+
+		// List<ResumoDevolutivaDto> returnList =
+		// manager.createQuery(criteria).getResultList();
+		TypedQuery<ResumoDevolutivaDto> query = manager.createQuery(criteria);
+
+		adicionarRestricoesDePaginacao(query, pageable);
+
+		return new PageImpl<>(query.getResultList(), pageable, total(devolutivaFilter));
+	}
+	
+	@Override
+	public Page<ResumoDevolutivaDto> filtrarAutorizado(DevolutivaFilter devolutivaFilter, Pageable pageable) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<ResumoDevolutivaDto> criteria = builder.createQuery(ResumoDevolutivaDto.class);
+		Root<Devolutiva> root = criteria.from(Devolutiva.class); // SELECT * FROM LANCAMENTO dentro de root
+		criteria.select(builder.construct(ResumoDevolutivaDto.class,
+				root.get("id"),
+				root.get("situacao"),
 				root.get("dataDevolutiva"),
 				root.get("motorista").get("nome")
 			));
@@ -73,6 +97,10 @@ public class DevolutivaRepositoryQueryImpl implements DevolutivaRepositoryQuery 
 	private Predicate[] criarRestricoes(DevolutivaFilter devolutivaFilter, CriteriaBuilder builder,
 			Root<Devolutiva> root) {
 		List<Predicate> predicates = new ArrayList<>();
+
+		if (!ObjectUtils.isEmpty(devolutivaFilter.getSituacao())) {
+			predicates.add(builder.equal(root.get("situacao"), devolutivaFilter.getSituacao()));
+		}
 		
 
 		if (devolutivaFilter.getDataDevolutivaDe() != null) {

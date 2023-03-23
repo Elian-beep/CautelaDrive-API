@@ -13,6 +13,13 @@ public class ResumoDevolutivaDto {
 	public ResumoDevolutivaDto() {
 	}
 
+	public ResumoDevolutivaDto(Long id, Situacao situacao, LocalDate dataDevolutiva) {
+		super();
+		this.id = id;
+		this.situacao = situacao;
+		this.dataDevolutiva = dataDevolutiva;
+	}
+
 	public ResumoDevolutivaDto(Long id, Situacao situacao, LocalDate dataDevolutiva, String motorista) {
 		super();
 		this.id = id;

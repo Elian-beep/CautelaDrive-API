@@ -7,16 +7,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import uea.cautela_drive.models.enums.Situacao;
 
 public class DevolutivaFilter {
-	private String situacao;
+	private Situacao situacao;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataDevolutivaDe;
 	private LocalDate dataDevolutivaAte;
 
-	public String getSituacao() {
+	public Situacao getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(String situacao) {
+	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
 
